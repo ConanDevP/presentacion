@@ -8,7 +8,6 @@ import {
   ChevronDownIcon
 } from '@heroicons/react/24/outline';
 
-// Componente ParticlesBackground
 const ParticlesBackground = () => {
   return (
     <div className="fixed inset-0 pointer-events-none">
@@ -38,24 +37,11 @@ const ParticlesBackground = () => {
   );
 };
 
-// Componente Slide
 const Slide = ({ children, isActive, index }) => {
   const slideVariants = {
-    enter: {
-      opacity: 0,
-      y: 50,
-      scale: 0.95,
-    },
-    center: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-    },
-    exit: {
-      opacity: 0,
-      y: -50,
-      scale: 1.05,
-    }
+    enter: { opacity: 0, y: 50, scale: 0.95 },
+    center: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -50, scale: 1.05 }
   };
 
   return (
@@ -65,10 +51,7 @@ const Slide = ({ children, isActive, index }) => {
       initial="enter"
       animate={isActive ? "center" : "exit"}
       exit="exit"
-      transition={{
-        duration: 0.8,
-        ease: [0.4, 0, 0.2, 1]
-      }}
+      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
     >
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {children}
@@ -77,8 +60,7 @@ const Slide = ({ children, isActive, index }) => {
   );
 };
 
-// Componente StatCard
-const StatCard = ({ prefix = '', value, suffix = '', text, description }) => (
+const StatCard = ({ prefix = '', value, suffix = '', text, description, source = '' }) => (
   <motion.div
     whileHover={{ scale: 1.05, y: -5 }}
     className="bg-gray-800/50 backdrop-blur-lg p-6 rounded-xl shadow-xl border border-blue-500/20"
@@ -91,13 +73,11 @@ const StatCard = ({ prefix = '', value, suffix = '', text, description }) => (
       {prefix}{value}{suffix}
     </div>
     <h3 className="text-xl font-semibold mb-2">{text}</h3>
-    {description && (
-      <p className="text-gray-400">{description}</p>
-    )}
+    {description && <p className="text-gray-400">{description}</p>}
+    {source && <p className="text-sm text-gray-500 mt-2 italic">{source}</p>}
   </motion.div>
 );
 
-// Componente FeatureCard
 const FeatureCard = ({ Icon, title, description }) => (
   <motion.div
     whileHover={{ scale: 1.05, y: -5 }}
@@ -113,7 +93,6 @@ const FeatureCard = ({ Icon, title, description }) => (
   </motion.div>
 );
 
-// Componente TimelineItem
 const TimelineItem = ({ date, title, description, index }) => (
   <motion.div
     initial={{ opacity: 0, x: -50 }}
@@ -130,7 +109,6 @@ const TimelineItem = ({ date, title, description, index }) => (
   </motion.div>
 );
 
-// Componente Quote
 const Quote = ({ text, className = '' }) => (
   <motion.blockquote
     initial={{ opacity: 0, y: 20 }}
@@ -143,12 +121,10 @@ const Quote = ({ text, className = '' }) => (
   </motion.blockquote>
 );
 
-// Componente Principal App
 function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 10;
 
-  // Efecto para manejar el scroll
   useEffect(() => {
     const handleWheel = (e) => {
       e.preventDefault();
@@ -161,13 +137,9 @@ function App() {
 
     const wheelOptions = { passive: false };
     window.addEventListener('wheel', handleWheel, wheelOptions);
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel, wheelOptions);
-    };
+    return () => window.removeEventListener('wheel', handleWheel, wheelOptions);
   }, [currentSlide]);
 
-  // Efecto para manejar la navegación con teclado
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowDown' && currentSlide < totalSlides - 1) {
@@ -185,7 +157,6 @@ function App() {
     <div className="bg-gray-900 text-white overflow-hidden">
       <ParticlesBackground />
 
-      {/* Indicador de scroll */}
       <motion.div
         className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
         initial={{ opacity: 0 }}
@@ -198,7 +169,6 @@ function App() {
         </div>
       </motion.div>
 
-      {/* Navigation Dots */}
       <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50">
         <div className="space-y-2">
           {[...Array(totalSlides)].map((_, i) => (
@@ -222,43 +192,46 @@ function App() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-7xl mb-6 font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-              Contact Center Inteligente
+              Amahe: Contact Center Inteligente
             </h1>
             <h2 className="text-4xl mb-8 text-blue-400">
-              HYDIB: Inteligencia que Conecta, Experiencias que Transforman
+              Transformando la Gestión de Llamadas en una Experiencia Integral
             </h2>
             <Quote
-              text="En HYDIB, entendemos que el futuro de las relaciones con los clientes no solo se trata de cumplir expectativas, sino de superarlas con tecnología inteligente."
+              text="La revolución en la atención al cliente comienza aquí. Amahe transforma cada interacción en una oportunidad para sorprender y fidelizar."
               className="max-w-3xl mx-auto"
             />
           </motion.div>
         </Slide>
 
-        {/* Slide 2: El Contexto */}
+        {/* Slide 2: El Panorama Actual */}
         <Slide isActive={currentSlide === 1}>
-          <h2 className="text-4xl mb-8 font-bold text-center">El Panorama Actual</h2>
+          <h2 className="text-4xl mb-8 font-bold text-center">El Contexto Actual</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <StatCard
               value={67}
               suffix="%"
               text="Prefieren autoservicio"
-              description="Los clientes buscan soluciones rápidas y accesibles"
+              description="Los clientes buscan resolver sus consultas de forma autónoma y eficiente"
+              source="Fuente: Gartner, 2023"
             />
             <StatCard
               value={45}
               suffix="%"
               text="Múltiples contactos"
-              description="Interacciones que requieren seguimiento adicional"
+              description="Las consultas requieren seguimiento y resolución en varios pasos"
+              source="Fuente: Forrester Research"
             />
             <StatCard
               value={78}
               suffix="%"
-              text="Exigen disponibilidad 24/7"
-              description="Presión constante sobre las operaciones"
+              text="Exigen atención 24/7"
+              description="La disponibilidad continua es una expectativa básica"
+              source="Fuente: McKinsey & Company"
             />
           </div>
           <Quote
-            text="El panorama actual plantea un desafío crítico: los clientes quieren soluciones rápidas, personalizadas y siempre disponibles."
+            text="El mercado demanda una revolución en la forma de gestionar la atención al cliente"
           />
         </Slide>
 
@@ -268,55 +241,47 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FeatureCard
               Icon={CurrencyDollarIcon}
-              title="Costos operativos crecientes"
-              description="Las empresas invierten recursos significativos en mantener servicios que no alcanzan la eficiencia deseada"
+              title="Costos operativos elevados"
+              description="La gestión tradicional requiere grandes inversiones en personal y tecnología sin garantizar resultados óptimos"
             />
             <FeatureCard
               Icon={ChartBarIcon}
-              title="Expectativas elevadas"
-              description="Los clientes modernos demandan respuestas inmediatas y experiencias altamente personalizadas"
+              title="Dificultad de integración"
+              description="Sistemas aislados que complican la visión unificada del cliente y su historial"
             />
             <FeatureCard
               Icon={ClockIcon}
-              title="Eficiencia transaccional"
-              description="Necesidad de maximizar resultados en cada interacción minimizando recursos y tiempo invertido"
+              title="Falta de automatización"
+              description="Procesos manuales que consumen tiempo y recursos valiosos del equipo"
             />
             <FeatureCard
               Icon={ShieldCheckIcon}
-              title="Complejidad en integraciones"
-              description="Sistemas desconectados que generan fricciones y ralentizan los procesos operativos"
+              title="Disponibilidad limitada"
+              description="Imposibilidad de ofrecer servicio continuo sin multiplicar costos"
             />
           </div>
         </Slide>
 
         {/* Slide 4: Nuestra Solución */}
         <Slide isActive={currentSlide === 3}>
-          <h2 className="text-4xl mb-8 font-bold text-center">Contact Center Inteligente</h2>
-          <Quote
-            text="El Contact Center Inteligente de HYDIB no es solo un sistema; es un ecosistema diseñado para transformar cada interacción en una experiencia positiva."
-            className="text-center mb-12"
-          />
+          <h2 className="text-4xl mb-8 font-bold text-center">Amahe: Contact Center del Futuro</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <FeatureCard
-              Icon={ChatBubbleBottomCenterTextIcon}
-              title="IA Conversacional"
-              description="Sistema avanzado de respuestas automáticas que mantiene conversaciones naturales y contextuales"
-            />
-            <FeatureCard
-              Icon={CogIcon}
-              title="Motor Transaccional"
-              description="Procesamiento eficiente que permite completar operaciones complejas en una sola interacción"
-            />
-            <FeatureCard
-              Icon={BoltIcon}
-              title="Automatización Inteligente"
-              description="Sistema que aprende y optimiza procesos repetitivos, liberando recursos para tareas de mayor valor"
-            />
-            <FeatureCard
-              Icon={ArrowPathIcon}
-              title="Integración Empresarial"
-              description="Conexión fluida con sistemas internos y externos para una operación sin interrupciones"
-            />
+            <div className="bg-gray-800/50 backdrop-blur-lg p-6 rounded-xl">
+              <h3 className="text-2xl mb-4 font-bold">Estado Actual:</h3>
+              <ul className="space-y-2">
+                <li>• Bot avanzado con capacidad de gestión de llamadas en tiempo real</li>
+                <li>• Integración completa con sistemas empresariales existentes</li>
+                <li>• Análisis predictivo de patrones de llamadas</li>
+              </ul>
+            </div>
+            <div className="bg-gray-800/50 backdrop-blur-lg p-6 rounded-xl">
+              <h3 className="text-2xl mb-4 font-bold">Visión Futura:</h3>
+              <ul className="space-y-2">
+                <li>• Plataforma SaaS totalmente escalable</li>
+                <li>• Sistema omnicanal integrado</li>
+                <li>• IA avanzada para personalización total</li>
+              </ul>
+            </div>
           </div>
         </Slide>
 
@@ -326,59 +291,52 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FeatureCard
               Icon={CalendarIcon}
-              title="Gestión de Citas y Reservas"
-              description="Sistema inteligente de programación que optimiza tiempos y recursos automáticamente"
+              title="Gestión Automatizada"
+              description="Sistema inteligente que maneja llamadas y prioriza casos automáticamente"
             />
             <FeatureCard
               Icon={CreditCardIcon}
-              title="Procesamiento de Pagos"
-              description="Transacciones seguras y verificadas con múltiples métodos de pago integrados"
+              title="Integración Enterprise"
+              description="Conexión perfecta con CRM, ERP y sistemas existentes"
             />
             <FeatureCard
               Icon={FingerPrintIcon}
-              title="Autenticación Biométrica"
-              description="Verificación de identidad multinivel para máxima seguridad en cada interacción"
+              title="Personalización Dinámica"
+              description="Adaptación del servicio según el perfil e historial del cliente"
             />
             <FeatureCard
               Icon={ChartPieIcon}
-              title="Analítica Predictiva"
-              description="Algoritmos avanzados que anticipan necesidades y optimizan decisiones operativas"
+              title="Escalabilidad Total"
+              description="Crece con tu negocio sin comprometer la calidad"
             />
           </div>
         </Slide>
 
         {/* Slide 6: Beneficios Tangibles */}
         <Slide isActive={currentSlide === 5}>
-          <h2 className="text-4xl mb-8 font-bold text-center">Resultados Esperados</h2>
-          <Quote
-            text="Los resultados hablan por sí solos: HYDIB no solo transforma la experiencia del cliente, sino que redefine la rentabilidad operativa."
-            className="text-center mb-12"
-          />
+          <h2 className="text-4xl mb-8 font-bold text-center">Resultados Tangibles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <StatCard
-              value="40-60"
+              value={50}
               suffix="%"
-              text="Optimización operativa"
-              description="Reducción significativa en costos operativos y mejora en productividad"
+              text="Reducción de costos"
+              description="Optimización significativa en gastos operativos"
+            />
+            <StatCard
+              value={80}
+              suffix="%"
+              text="Automatización"
+              description="Resolución automática de consultas rutinarias"
             />
             <StatCard
               value={35}
               suffix="%"
               text="Mejora en satisfacción"
-              description="Incremento medible en la satisfacción general del cliente"
+              description="Incremento medible en experiencia del cliente"
             />
             <StatCard
-              prefix="Disponibilidad "
-              value={24}
-              suffix="/7"
-              text="Servicio continuo"
-              description="Atención ininterrumpida para clientes globales"
-            />
-            <StatCard
-              value={100}
-              suffix="%"
-              text="Escalabilidad"
-              description="Capacidad de crecimiento según demanda sin pérdida de calidad"
+              text="Preparación SaaS"
+              description="Transición fluida hacia modelo cloud"
             />
           </div>
         </Slide>
@@ -386,30 +344,26 @@ function App() {
         {/* Slide 7: Casos de Uso */}
         <Slide isActive={currentSlide === 6}>
           <h2 className="text-4xl mb-8 font-bold text-center">Aplicaciones Prácticas</h2>
-          <Quote
-            text="Desde la atención médica hasta las finanzas, HYDIB está transformando industrias enteras con soluciones personalizadas."
-            className="text-center mb-12"
-          />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FeatureCard
               Icon={BuildingOfficeIcon}
               title="Sector Salud"
-              description="Gestión eficiente de citas médicas, seguimiento de pacientes y atención primaria automatizada"
+              description="Gestión inteligente de citas y seguimiento personalizado de pacientes"
             />
             <FeatureCard
               Icon={BanknotesIcon}
               title="Servicios Financieros"
-              description="Procesamiento seguro de transacciones y atención personalizada para clientes premium"
+              description="Verificación segura y gestión automatizada de transacciones"
             />
             <FeatureCard
               Icon={ShoppingBagIcon}
-              title="Comercio Minorista"
-              description="Soporte en tiempo real para ventas y servicio post-venta automatizado"
+              title="Retail"
+              description="Soporte integral para ventas y servicio post-venta"
             />
             <FeatureCard
               Icon={BriefcaseIcon}
               title="Servicios Profesionales"
-              description="Automatización de procesos administrativos y mejora en la comunicación cliente-empresa"
+              description="Automatización eficiente de procesos administrativos"
             />
           </div>
         </Slide>
@@ -419,27 +373,27 @@ function App() {
           <h2 className="text-4xl mb-12 font-bold text-center">Evolución del Sistema</h2>
           <div className="space-y-8">
             <TimelineItem
-              date="Q4 2024"
-              title="Lanzamiento del sistema central"
-              description="Implementación de funcionalidades base y establecimiento de infraestructura core"
+              date="Fase Actual"
+              title="Bot Avanzado"
+              description="Sistema core con integraciones CRM/ERP implementadas"
               index={0}
             />
             <TimelineItem
               date="Q2 2025"
-              title="Expansión funcional"
-              description="Incorporación de nuevas capacidades y optimización basada en feedback inicial"
+              title="SaaS Avanzado"
+              description="Lanzamiento de plataforma cloud con análisis predictivo"
               index={1}
             />
             <TimelineItem
               date="Q4 2025"
-              title="Adaptación sectorial"
-              description="Desarrollo de soluciones específicas para diferentes industrias y casos de uso"
+              title="Expansión Multicanal"
+              description="Integración completa de canales digitales adicionales"
               index={2}
             />
             <TimelineItem
               date="2026+"
-              title="Innovación continua"
-              description="Evolución constante con nuevas tecnologías y capacidades avanzadas"
+              title="SaaS Completo"
+              description="Solución integral multicanal con IA avanzada"
               index={3}
             />
           </div>
@@ -447,67 +401,47 @@ function App() {
 
         {/* Slide 9: Seguridad */}
         <Slide isActive={currentSlide === 8}>
-          <h2 className="text-4xl mb-8 font-bold text-center">Confiabilidad y Seguridad</h2>
-          <Quote
-            text="La seguridad es el núcleo de HYDIB, protegiendo tanto los datos como la confianza de nuestros clientes."
-            className="text-center mb-12"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <h2 className="text-4xl mb-8 font-bold text-center">Seguridad y Confiabilidad</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FeatureCard
               Icon={ShieldCheckIcon}
-              title="Certificación PCI DSS"
-              description="Cumplimiento completo con estándares internacionales de seguridad en transacciones financieras"
+              title="Protección Robusta"
+              description="Encriptación end-to-end en todas las comunicaciones"
             />
             <FeatureCard
               Icon={ShieldCheckIcon}
-              title="Cumplimiento GDPR"
-              description="Protección integral de datos personales según normativas globales de privacidad"
+              title="Estándares Globales"
+              description="Cumplimiento GDPR y PCI DSS garantizado"
             />
             <FeatureCard
               Icon={ShieldCheckIcon}
-              title="Encriptación end-to-end"
-              description="Seguridad de nivel militar en todas las comunicaciones y almacenamiento de datos"
-            />
-            <FeatureCard
-              Icon={ShieldCheckIcon}
-              title="Auditorías continuas"
-              description="Evaluación regular de seguridad por expertos independientes"
+              title="Monitoreo Continuo"
+              description="Auditorías regulares de seguridad y rendimiento"
             />
           </div>
         </Slide>
 
         {/* Slide 10: Próximos Pasos */}
         <Slide isActive={currentSlide === 9}>
-          <h2 className="text-4xl mb-8 font-bold text-center">El Camino a Seguir</h2>
-          <Quote
-            text="Con HYDIB, dar el siguiente paso hacia la transformación nunca ha sido tan claro y alcanzable."
-            className="text-center mb-12"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <h2 className="text-4xl mb-8 font-bold text-center">Inicia la Transformación</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FeatureCard
               Icon={ChartBarIcon}
-              title="Evaluación de necesidades"
-              description="Análisis exhaustivo de procesos actuales y áreas de oportunidad para maximizar el impacto"
+              title="Implementación Bot"
+              description="Integración inicial del sistema en tu operación actual"
             />
             <FeatureCard
               Icon={BoltIcon}
-              title="Prueba piloto"
-              description="Implementación controlada con métricas claras para validar beneficios y ajustar la solución"
+              title="Prueba Piloto"
+              description="Validación en entorno controlado con métricas claras"
             />
             <FeatureCard
               Icon={ArrowPathIcon}
-              title="Implementación por fases"
-              description="Despliegue estratégico que minimiza riesgos y asegura una transición suave"
-            />
-            <FeatureCard
-              Icon={ChartPieIcon}
-              title="Escalamiento"
-              description="Expansión progresiva de capacidades alineada con objetivos de crecimiento"
+              title="Escalamiento SaaS"
+              description="Transición gradual hacia la plataforma completa"
             />
           </div>
         </Slide>
-
-      
       </AnimatePresence>
     </div>
   );
